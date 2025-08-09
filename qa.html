@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>常见问题 QA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --main-bg-color: rgba(0, 0, 0, 0.6);
+      --accent-color: #ffe066;
+      --text-color: #fffbe7;
+      --border-color: rgba(255, 255, 255, 0.2);
+      --highlight-color: #ff9e00;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Noto Serif SC', 'Microsoft YaHei', serif;
+      color: var(--text-color);
+      background-color: #121212;
+      background-image: url('https://hunyuan-prod-1258344703.cos.ap-guangzhou.myqcloud.com/text2img/15d06b6ce644675e59605072fc05a349/20250805213434h0_d8ce909ac27cc79caa36c2960c289b1a?q-sign-algorithm=sha1&q-ak=AKIDRl074nOsGdJ9zjMsCRWP3ShmgS3VtX4S&q-sign-time=1754400874;1785936874&q-key-time=1754400874;1785936874&q-header-list=host&q-url-param-list=&q-signature=e978510e5fe76165b6cddac5754a22c7aa0323bf');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+      margin: 0;
+    }
+    .qa-container {
+      max-width: 700px;
+      margin: 60px auto 40px auto;
+      background: var(--main-bg-color);
+      border-radius: 18px;
+      box-shadow: 0 4px 32px #0008;
+      padding: 36px 28px 28px 28px;
+      border: 1.5px solid var(--border-color);
+      backdrop-filter: blur(2px);
+    }
+    h1 {
+      color: var(--accent-color);
+      text-align: center;
+      margin-bottom: 32px;
+      font-size: 2.2em;
+      letter-spacing: 0.08em;
+    }
+    .qa-item {
+      margin-bottom: 28px;
+      padding-bottom: 18px;
+      border-bottom: 1px dashed var(--border-color);
+    }
+    .qa-item:last-child {
+      border-bottom: none;
+    }
+    .question {
+      color: var(--highlight-color);
+      font-weight: bold;
+      font-size: 1.15em;
+      margin-bottom: 8px;
+    }
+    .answer {
+      color: var(--text-color);
+      font-size: 1.05em;
+      line-height: 1.7;
+      margin-left: 1.2em;
+    }
+    .back-btn {
+      display: inline-block;
+      margin: 24px auto 0 auto;
+      padding: 10px 28px;
+      background: linear-gradient(135deg, #ffe066 60%, #ff9e00 100%);
+      color: #121212;
+      border-radius: 8px;
+      font-size: 1.1em;
+      font-family: 'Noto Serif SC', 'Microsoft YaHei', serif;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 2px 8px #ffecb3;
+      border: 2px solid #fffbe7;
+      transition: background 0.3s, color 0.3s, transform 0.2s;
+      text-align: center;
+      display: block;
+      width: fit-content;
+    }
+    .back-btn:hover {
+      background: linear-gradient(135deg, #ff9e00 60%, #ffe066 100%);
+      color: #fffbe7;
+      transform: scale(1.06);
+    }
+  </style>
+</head>
+<body>
+  <!-- BGM 音乐播放器和音符按钮（与主页面一致，延续播放） -->
+  <audio id="bgm-audio" src="待确定.mp3" loop preload="auto"></audio>
+  <div id="music-note" title="点击暂停/播放音乐">🎵</div>
+  <style>
+    #music-note {
+      position: fixed;
+      right: 32px;
+      bottom: 32px;
+      font-size: 1.8em;
+      z-index: 9999;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.4s cubic-bezier(.4,2,.6,1), filter 0.2s;
+      filter: drop-shadow(0 2px 8px #ffe066);
+    }
+    #music-note.playing {
+      animation: note-spin 2.2s linear infinite;
+      filter: drop-shadow(0 2px 16px #ffe066);
+    }
+    @keyframes note-spin {
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+  <script>
+    // 音乐播放与音符控制
+    document.addEventListener('DOMContentLoaded', function() {
+      const audio = document.getElementById('bgm-audio');
+      const note = document.getElementById('music-note');
+      if (!audio || !note) return;
+      // 读取localStorage中的音乐状态
+      try {
+        const t = parseFloat(localStorage.getItem('bgm-currentTime'));
+        const v = parseFloat(localStorage.getItem('bgm-volume'));
+        const paused = localStorage.getItem('bgm-paused');
+        if (!isNaN(t)) audio.currentTime = t;
+        if (!isNaN(v)) audio.volume = v;
+        else audio.volume = 0.1;
+        if (paused === '1') {
+          setTimeout(()=>audio.pause(), 100);
+        } else {
+          setTimeout(()=>audio.play().catch(()=>{}), 100);
+        }
+      } catch(e) {
+        audio.volume = 0.1;
+      }
+      // 兼容部分浏览器，强制多次设置音量为0.1
+      audio.volume = 0.1;
+      audio.addEventListener('canplay', function(){ audio.volume = 0.1; });
+      audio.addEventListener('play', function(){ audio.volume = 0.1; });
+      // 返回主页面时跳过封面
+      var backBtn = document.querySelector('.back-btn');
+      if (backBtn) {
+        backBtn.addEventListener('click', function(e) {
+          localStorage.setItem('skip-cover', '1');
+          // 如果是从较稳定01.html页面来的，使用浏览器后退
+          if (document.referrer && document.referrer.includes('较稳定01.html')) {
+            e.preventDefault();
+            window.history.back();
+          }
+        });
+      }
+      function updateNoteState() {
+        if (!audio.paused) {
+          note.classList.add('playing');
+        } else {
+          note.classList.remove('playing');
+        }
+      }
+      note.addEventListener('click', function() {
+        if (audio.paused) {
+          audio.play();
+        } else {
+          audio.pause();
+        }
+      });
+      audio.addEventListener('play', updateNoteState);
+      audio.addEventListener('pause', updateNoteState);
+      updateNoteState();
+      // 兼容部分浏览器自动播放策略
+      document.body.addEventListener('click', function oncePlay() {
+        if (audio.paused) {
+          audio.play().catch(()=>{});
+        }
+        document.body.removeEventListener('click', oncePlay);
+      });
+    });
+  </script>
+  <div class="qa-container">
+    <h1>常见问题 QA</h1>
+    <div class="qa-item">
+      <div class="question">Q1：如何暂停或恢复背景音乐？</div>
+      <div class="answer">请点击页面右下角的🎵音符按钮，音乐会暂停或恢复播放。</div>
+    </div>
+    <div class="qa-item">
+      <div class="question">Q2：djk是何许人？</div>
+      <div class="answer">你们的好哥们，猫和老鼠的高手，高中卷王的代言人，华科的新生</div>
+    </div>
+    <div class="qa-item">
+      <div class="question">Q3：如何导航到宴会酒店？</div>
+      <div class="answer">页面中有导航按钮，点击即可跳转到地图导航页面，获取路线指引。</div>
+    </div>
+    <div class="qa-item">
+      <div class="question">Q4：升学宴质量如何？</div>
+      <div class="answer">高档酒店格调拉满，兄妹二人同办酒席规模巨大，饮料酒水不限量随时供应。</div>
+    </div>
+    <a class="back-btn" href="较稳定01.html">返回邀请函主页</a>
+  </div>
+</body>
+</html>

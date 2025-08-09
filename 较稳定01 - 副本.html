@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>升学宴邀请函</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --main-bg-color: rgba(0, 0, 0, 0.6);
+      --accent-color: #ffe066;
+      --text-color: #fffbe7;
+      --border-color: rgba(255, 255, 255, 0.2);
+      --highlight-color: #ff9e00;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html, body {
+      height: 100%;
+      font-family: 'Noto Serif SC', 'Microsoft YaHei', serif;
+      color: var(--text-color);
+      background-color: #121212;
+      background-image: url('https://hunyuan-prod-1258344703.cos.ap-guangzhou.myqcloud.com/text2img/15d06b6ce644675e59605072fc05a349/20250805213434h0_d8ce909ac27cc79caa36c2960c289b1a?q-sign-algorithm=sha1&q-ak=AKIDRl074nOsGdJ9zjMsCRWP3ShmgS3VtX4S&q-sign-time=1754400874;1785936874&q-key-time=1754400874;1785936874&q-header-list=host&q-url-param-list=&q-signature=e978510e5fe76165b6cddac5754a22c7aa0323bf');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden; /* 防止内容溢出 */
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1s ease-out 0.3s;
+    }
+    
+    .container.loaded {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .scroll-decor {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.1;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,50 Q25,0 50,50 T100,50" fill="none" stroke="%23ffffff" stroke-width="2"/></svg>');
+      background-size: 100px 100px;
+    }
+    
+    /* 封面图片样式 */
+    .cover {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://hunyuan-prod-1258344703.cos.ap-guangzhou.myqcloud.com/text2img/15d06b6ce644675e59605072fc05a349/20250805210107h0_bb831fd21de9ff0f58ec4e82128225f3?q-sign-algorithm=sha1&q-ak=AKIDRl074nOsGdJ9zjMsCRWP3ShmgS3VtX4S&q-sign-time=1754398867;1785934867&q-key-time=1754398867;1785934867&q-header-list=host&q-url-param-list=&q-signature=41a81a1bd9fcc19c2128172771d41715a62fefd5');
+      background-size: cover;
+      background-position: center;
+      z-index: 1000;
+      cursor: pointer;
+      transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .cover::before {
+      content: '点击进入邀请函';
+      position: absolute;
+      bottom: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--accent-color);
+      font-size: 1.5em;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+      opacity: 0.9;
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+    
+    .cover:hover::before {
+      opacity: 1;
+      transform: translateX(-50%) scale(1.05);
+    }
+    
+    .cover.active {
+      transform: translateY(-100%) scale(0.95);
+      opacity: 0;
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.7;
+        transform: translateX(-50%) scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.05);
+      }
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeInDown 1s ease-out;
+      position: relative;
+      z-index: 10;
+    }
+    
+    h1 {
+      font-size: 2.8em;
+      letter-spacing: 10px;
+      margin-bottom: 15px;
+      font-weight: 700;
+      color: var(--accent-color);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 2px;
+      background-color: var(--accent-color);
+    }
+    
+    main {
+      flex-grow: 1;
+      animation: fadeIn 1.2s ease-out;
+      position: relative;
+      z-index: 10;
+    }
+    
+    .warning {
+      background-color: rgba(150, 0, 0, 0.3);
+      border-left: 4px solid #ff3333;
+      padding: 15px 20px;
+      margin-bottom: 30px;
+      border-radius: 0 8px 8px 0;
+      font-size: 1.05em;
+      line-height: 1.6;
+    }
+    
+    .warning strong {
+      color: #ff9999;
+    }
+    
+    .info-section {
+      margin-bottom: 35px;
+      animation: slideUp 0.8s ease-out;
+    }
+    
+    .info-item {
+      margin-bottom: 12px;
+      font-size: 1.15em;
+    }
+    
+    .guests-section {
+      margin-bottom: 35px;
+    }
+    
+    .guests-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 25px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+    
+    .guests-table th, 
+    .guests-table td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+    }
+    
+    .guests-table th {
+      background-color: rgba(0, 0, 0, 0.3);
+      font-size: 1.1em;
+      position: relative;
+    }
+    
+    .guests-table th::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--accent-color);
+    }
+    
+    .guests-table img {
+      max-width: 120px;
+      max-height: 120px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .guests-table img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      border-color: var(--accent-color);
+    }
+    
+    .drinks-section ul {
+      list-style-type: none;
+      margin-left: 0;
+    }
+    
+    .drinks-section li {
+      margin-bottom: 20px;
+      font-size: 1.15em;
+      position: relative;
+      padding-left: 25px;
+    }
+    
+    .drinks-section li::before {
+      content: '🍹';
+      position: absolute;
+      left: 0;
+      top: -2px;
+    }
+    
+    /* 信息登记板块样式 */
+    .registration-section {
+      margin-bottom: 35px;
+      animation: slideUp 0.8s ease-out;
+    }
+    
+    .registration-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 25px;
+    }
+    
+    .registration-form {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(10px);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent-color);
+      font-size: 1.05em;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-color);
+      font-size: 1em;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+    
+    /* 优化下拉选项的样式 */
+    .form-group select option {
+      background-color: #2a2a2a;
+      color: var(--text-color);
+      padding: 8px;
+    }
+    
+    .form-group select option:hover {
+      background-color: var(--accent-color);
+      color: #000;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 0 3px rgba(255, 224, 102, 0.1);
+    }
+    
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--accent-color), var(--highlight-color));
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 224, 102, 0.3);
+    }
+    
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+    
+    .registration-stats {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(10px);
+    }
+    
+    .registration-stats h3 {
+      margin-bottom: 20px;
+      color: var(--accent-color);
+      text-align: center;
+      font-size: 1.2em;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+    
+    .stat-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .stat-number {
+      display: block;
+      font-size: 2em;
+      font-weight: 700;
+      color: var(--accent-color);
+      margin-bottom: 5px;
+    }
+    
+    .stat-label {
+      font-size: 0.9em;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .recent-registrations {
+      margin-top: 30px;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(10px);
+    }
+    
+    .recent-registrations h3 {
+      margin-bottom: 20px;
+      color: var(--accent-color);
+      text-align: center;
+      font-size: 1.2em;
+    }
+    
+    .recent-list {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .recent-item {
+      padding: 15px;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      border-left: 4px solid var(--accent-color);
+      animation: slideInRight 0.5s ease-out;
+    }
+    
+    .recent-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    
+    .recent-name {
+      font-weight: 600;
+      color: var(--accent-color);
+    }
+    
+    .recent-time {
+      font-size: 0.85em;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .recent-details {
+      font-size: 0.9em;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.4;
+    }
+    
+    .recent-message {
+      margin-top: 8px;
+      padding: 8px;
+      background: rgba(255, 224, 102, 0.1);
+      border-radius: 4px;
+      font-style: italic;
+      font-size: 0.85em;
+    }
+    
+    .no-data {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.5);
+      font-style: italic;
+      padding: 20px;
+    }
+    
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    blockquote {
+      display: block;
+      margin: 12px 0;
+      padding: 12px 15px;
+      background: rgba(0, 0, 0, 0.25);
+      border-left: 4px solid var(--accent-color);
+      border-radius: 0 6px 6px 0;
+      color: #fffbe7;
+      font-style: italic;
+      position: relative;
+      transition: background-color 0.3s ease;
+    }
+    
+    blockquote:hover {
+      background-color: rgba(0, 0, 0, 0.35);
+    }
+    
+    blockquote::before {
+      content: '"';
+      position: absolute;
+      top: -5px;
+      left: 5px;
+      font-size: 2em;
+      color: var(--accent-color);
+      opacity: 0.5;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px 0;
+      color: var(--accent-color);
+      font-size: 1.25em;
+      position: relative;
+      animation: fadeInUp 1s ease-out;
+      z-index: 10;
+    }
+    
+    footer::before {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background-color: var(--accent-color);
+      margin: 0 auto 15px;
+      border-radius: 3px;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* 导航板块样式 */
+    .nav-section {
+      margin-bottom: 30px;
+      animation: fadeInDown 1s;
+      background: rgba(0,0,0,0.25);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    .nav-section #location-info {
+      font-size: 1.1em;
+      margin-bottom: 12px;
+      color: var(--accent-color);
+      letter-spacing: 1px;
+    }
+    .nav-section #nav-btn {
+      padding: 10px 22px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent-color), var(--highlight-color));
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(255,224,102,0.08);
+    }
+    .nav-section #nav-btn:hover {
+      background: linear-gradient(135deg, #ffd700, #ffb300);
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 4px 16px rgba(255,224,102,0.18);
+    }
+    .nav-section #satellite-btn {
+      background: linear-gradient(135deg, #4f8cff, #003366);
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 8px rgba(79,140,255,0.18);
+      border: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      transition: all 0.3s;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .nav-section #satellite-btn:hover {
+      background: linear-gradient(135deg, #003366, #4f8cff);
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 4px 16px rgba(79,140,255,0.18);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px 15px;
+      }
+      
+      h1 {
+        font-size: 2em;
+        letter-spacing: 6px;
+      }
+      
+      .guests-table th, 
+      .guests-table td {
+        padding: 8px 5px;
+        font-size: 0.9em;
+      }
+      
+      .guests-table img {
+        max-width: 60px;
+        max-height: 60px;
+      }
+      
+      .warning {
+        font-size: 0.95em;
+        padding: 12px 15px;
+      }
+      
+      .info-item, 
+      .drinks-section li {
+        font-size: 1em;
+      }
+      
+      blockquote {
+        font-size: 0.9em;
+        padding: 10px 12px;
+      }
+      
+      .registration-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .registration-form,
+      .registration-stats,
+      .recent-registrations {
+        padding: 20px;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      
+      .stat-number {
+        font-size: 1.5em;
+      }
+      
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 10px 12px;
+        font-size: 0.95em;
+      }
+      
+      .submit-btn {
+        padding: 12px;
+        font-size: 1em;
+      }
+    }
+    #satellite-modal {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    #satellite-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #music-note {
+      position: fixed;
+      right: 32px;
+      bottom: 32px;
+      font-size: 1.8em; /* 原为2.5em，缩小 */
+      z-index: 9999;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.4s cubic-bezier(.4,2,.6,1), filter 0.2s;
+      filter: drop-shadow(0 2px 8px #ffe066);
+    }
+    #music-note.playing {
+      animation: note-spin 2.2s linear infinite; /* 原为1.2s，放缓速度 */
+      filter: drop-shadow(0 2px 16px #ffe066);
+    }
+    @keyframes note-spin {
+      100% { transform: rotate(360deg); }
+    }
+    #qa-btn {
+      position: fixed;
+      right: 38px;
+      bottom: 90px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5em;
+      height: 2.5em;
+      font-size: 1.1em;
+      font-family: 'Noto Serif SC', 'Microsoft YaHei', serif;
+      background: linear-gradient(135deg, #ffe066 60%, #ff9e00 100%);
+      color: #121212;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px #ffecb3;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      text-decoration: none;
+      border: 2px solid #fffbe7;
+      transition: background 0.3s, color 0.3s, transform 0.2s;
+      opacity: 0.95;
+    }
+    #qa-btn:hover {
+      background: linear-gradient(135deg, #ff9e00 60%, #ffe066 100%);
+      color: #fffbe7;
+      transform: scale(1.08) rotate(-6deg);
+    }
+    #qa-btn.qa-hidden {
+      display: none !important;
+    }
+    
+    /* 倒计时板块样式 */
+    .countdown-section {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 12px;
+      padding: 15px 20px;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      min-width: 200px;
+      animation: fadeInDown 1s ease-out;
+      transition: opacity 0.6s ease-out, pointer-events 0.6s ease-out;
+    }
+    
+    /* 封面时完全隐藏倒计时 */
+    .countdown-section.cover-hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    
+    .countdown-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      color: var(--accent-color);
+      font-weight: 600;
+      font-size: 1.1em;
+    }
+    
+    .countdown-sandglass {
+      font-size: 1.2em;
+      margin-right: 8px;
+      animation: sandglass-flip 3s ease-in-out infinite;
+    }
+    
+    @keyframes sandglass-flip {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(180deg); }
+    }
+    
+    .countdown-time {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      text-align: center;
+    }
+    
+    .time-unit {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 8px 4px;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+    
+    .time-unit:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(255, 224, 102, 0.2);
+    }
+    
+    .time-number {
+      display: block;
+      font-size: 1.4em;
+      font-weight: 700;
+      color: var(--accent-color);
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+    
+    .time-label {
+      font-size: 0.75em;
+      color: rgba(255, 255, 255, 0.8);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .countdown-message {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 0.9em;
+      color: var(--text-color);
+      font-style: italic;
+    }
+    
+    @media (max-width: 768px) {
+      .countdown-section {
+        top: 10px;
+        right: 10px;
+        padding: 12px 15px;
+        min-width: 160px;
+      }
+      
+      .countdown-time {
+        gap: 6px;
+      }
+      
+      .time-number {
+        font-size: 1.2em;
+      }
+      
+      .time-label {
+        font-size: 0.7em;
+      }
+      
+      .countdown-header {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cover"></div> <!-- 封面图片 -->
+  <div class="scroll-decor"></div>
+  
+  <!-- 倒计时板块 -->
+  <div class="countdown-section">
+    <div class="countdown-header">
+      <span class="countdown-sandglass">⏳</span>
+      距离宴会还有
+    </div>
+    <div class="countdown-time">
+      <div class="time-unit">
+        <span class="time-number" id="days">--</span>
+        <span class="time-label">天</span>
+      </div>
+      <div class="time-unit">
+        <span class="time-number" id="hours">--</span>
+        <span class="time-label">时</span>
+      </div>
+      <div class="time-unit">
+        <span class="time-number" id="minutes">--</span>
+        <span class="time-label">分</span>
+      </div>
+      <div class="time-unit">
+        <span class="time-number" id="seconds">--</span>
+        <span class="time-label">秒</span>
+      </div>
+    </div>
+    <div class="countdown-message" id="countdown-message">期待您的光临</div>
+  </div>
+  
+  <div class="container">
+    <header>
+      <h1>升学之喜 · 盛情相邀</h1>
+    </header>
+    
+    <main>
+      <section class="warning">
+        <p style="font-size: 0.9em;"><strong>温馨提示：</strong>如果您未滿17歲或者您與當地法律許可之法定年齡不符，對djk反感或是街道人士建議您莫來吃席！<br>
+    本次宴會為限制級，限定為17歲以上，已具備完整行為能力且願意接受宴會內音樂內容及其各項條款之入類才可進入，未滿17歲謝絕進入。<br>
+    注：若您不符上述條件，並無視風險繼續前往，本人不負任何責任。</p>
+      </section>
+      
+      <section class="info-section">
+        <div class="info-item">📅 <strong>佳期:</strong> 2025年8月6日（星期三）</div>
+        <div class="info-item">⏰ <strong>时辰:</strong> 中午12:00 和 晚上18:00（两场）</div>
+        <div class="info-item">📍&ensp;<strong>宴设:</strong> 万载宜嘉酒店三楼宴会厅</div>
+        <div class="info-item">👥 <strong>席位安排:</strong> 设有同学专属席位，请留意现场标识</div>
+      </section>
+      
+      <section class="guests-section">
+        <h2>✨ 同窗天团 ✨</h2>
+        <table class="guests-table">
+          <thead>
+            <tr>
+              <th>八班魅魔</th>
+              <th>可爱脑斧</th>
+              <th>八班班长</th>
+              <th>万中校霸</th>
+              <th>香辣碳烤钵钵鸡</th>
+              <th>哲♂学家</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><img src="https://hunyuan-prod-1258344703.cos.ap-guangzhou.myqcloud.com/text2img/15d06b6ce644675e59605072fc05a349/20250805210641h0_8022172be3c007c14da8c2b9f340685f?q-sign-algorithm=sha1&q-ak=AKIDRl074nOsGdJ9zjMsCRWP3ShmgS3VtX4S&q-sign-time=1754399201;1785935201&q-key-time=1754399201;1785935201&q-header-list=host&q-url-param-list=&q-signature=b402cc5c75d7db9cd1d2362753427f6ff8053dfe" alt="八班魅魔"></td>
+              <td><img src="https://hunyuan-prod-1258344703.cos.ap-guangzhou.myqcloud.com/text2img/15d06b6ce644675e59605072fc05a349/20250805212745h0_b6ff1b3936d1b8761d5f2ccbaca75908?q-sign-algorithm=sha1&q-ak=AKIDRl074nOsGdJ9zjMsCRWP3ShmgS3VtX4S&q-sign-time=1754400465;1785936465&q-key-time=1754400465;1785936465&q-header-list=host&q-url-param-list=&q-signature=5258ce15560ea139acd8adab2120620c80509d00" alt="可爱脑斧"></td>
+              <td><img src="https://hunyuan-prod-1258344703.cos.ap-guangzhou.myqcloud.com/text2img/15d06b6ce644675e59605072fc05a349/20250805210755h0_9f21c833f60727935687b3ed7ec7641d?q-sign-algorithm=sha1&q-ak=AKIDRl074nOsGdJ9zjMsCRWP3ShmgS3VtX4S&q-sign-time=1754399275;1785935275&q-key-time=1754399275;1785935275&q-header-list=host&q-url-param-list=&q-signature=90625b36661202c04f713f6a66410dbd515fdbe9" alt="八班班长"></td>
+              <td><img src="https://hunyuan-prod-1258344703.cos.ap-guangzhou.myqcloud.com/text2img/15d06b6ce644675e59605072fc05a349/20250805213140h0_7af74f6727a910b89a11da30200c78af?q-sign-algorithm=sha1&q-ak=AKIDRl074nOsGdJ9zjMsCRWP3ShmgS3VtX4S&q-sign-time=1754400700;1785936700&q-key-time=1754400700;1785936700&q-header-list=host&q-url-param-list=&q-signature=7625b66aee69bfe0ce940b1a2e15e847f49df237" alt="万中校霸"></td>
+              <td><img src="https://hunyuan-prod-1258344703.cos.ap-guangzhou.myqcloud.com/text2img/15d06b6ce644675e59605072fc05a349/20250805210458h0_d101b3dede9866e0c7020e65710c53db?q-sign-algorithm=sha1&q-ak=AKIDRl074nOsGdJ9zjMsCRWP3ShmgS3VtX4S&q-sign-time=1754399098;1785935098&q-key-time=1754399098;1785935098&q-header-list=host&q-url-param-list=&q-signature=2d563ad8e0089c86c3fed4c5e886dd4d448050e4" alt="香辣碳烤钵钵鸡"></td>
+              <td><img src="https://hunyuan-prod-1258344703.cos.ap-guangzhou.myqcloud.com/text2img/15d06b6ce644675e59605072fc05a349/20250805210615h0_c979d2649a8f9e35910f232f7d4c0467?q-sign-algorithm=sha1&q-ak=AKIDRl074nOsGdJ9zjMsCRWP3ShmgS3VtX4S&q-sign-time=1754399175;1785935175&q-key-time=1754399175;1785935175&q-header-list=host&q-url-param-list=&q-signature=6fa5da63e30fcab1fdeee7bb4ab477aaa261b0d5" alt="哲♂学家"></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      
+      <section class="drinks-section">
+        <h2>精致饮品</h2>
+        <ul>
+          <li>
+            可乐
+            <blockquote>"每一口可乐里，都藏着被亿万气泡囚禁的亡魂，在你的喉咙里尖叫着腐蚀你的灵魂。"</blockquote>
+          </li>
+          <li>
+            营养快线
+            <blockquote>"它用糖霜编织温柔陷阱，让味蕾沉沦时，悄悄在血管里埋下黏稠的黄昏，直到某天镜子里的你，变成一具被甜蜜腌渍的空心标本。"</blockquote>
+          </li>
+          <li>
+            啤酒
+            <blockquote>"麦芽的香气是它温柔的毒药，绵密的泡沫是它伪装的忏悔，而当你喝下第一口，冰冷的狂欢便顺着食道爬进血液，在肝脏刻下密密麻麻的墓碑，直到某个黎明，你的灵魂像空酒瓶一样叮当落地，碎成一片宿醉的月光。"</blockquote>
+          </li>
+        </ul>
+      </section>
+      
+      <section class="registration-section">
+        <h2>📝 信息登记</h2>
+        <div class="registration-container">
+          <form id="registrationForm" class="registration-form">
+            <div class="form-group">
+              <label for="name">姓名</label>
+              <input type="text" id="name" name="name" required placeholder="请输入您的姓名">
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">联系电话</label>
+              <input type="tel" id="phone" name="phone" required placeholder="请输入您的手机号码">
+            </div>
+            
+            <div class="form-group">
+              <label for="attendance">出席场次</label>
+              <select id="attendance" name="attendance" required>
+                <option value="">请选择出席场次</option>
+                <option value="中午12:00">中午12:00</option>
+                <option value="晚上18:00">晚上18:00</option>
+                <option value="两场都参加">两场都参加</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="guests">随行人数</label>
+              <input type="number" id="guests" name="guests" min="0" max="5" value="0" placeholder="0">
+            </div>
+            
+            <div class="form-group">
+              <label for="message">留言祝福</label>
+              <textarea id="message" name="message" rows="3" placeholder="写下您的祝福或特殊要求..."></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">提交登记</button>
+          </form>
+          
+          <div class="registration-stats">
+            <h3>📊 登记统计</h3>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <span class="stat-number" id="totalRegistrations">0</span>
+                <span class="stat-label">总登记数</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number" id="lunchCount">0</span>
+                <span class="stat-label">午宴人数</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number" id="dinnerCount">0</span>
+                <span class="stat-label">晚宴人数</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number" id="bothCount">0</span>
+                <span class="stat-label">两场都参加</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="recent-registrations">
+          <h3>🕒 最新登记</h3>
+          <div id="recentList" class="recent-list">
+            <p class="no-data">暂无登记信息</p>
+          </div>
+        </div>
+      </section>
+      
+      <p style="margin: 30px 0; font-size: 1.1em; line-height: 1.7;">
+        诚挚期待您的光临，让我们共同见证这个重要时刻！<br>
+        着装建议：正式但不失个性，可融入个人风格元素
+      </p>
+    </main>
+    
+    <nav class="nav-section">
+      <div id="location-info">
+        📍 正在获取您的当前位置...
+      </div>
+      <div style="display: flex; justify-content: center; gap: 16px;">
+        <button id="nav-btn">一键导航到宴会酒店</button>
+        <button id="satellite-btn" style="background: linear-gradient(135deg, #4f8cff, #003366); color: #fff; font-weight: 700; letter-spacing: 1px; box-shadow: 0 2px 8px rgba(79,140,255,0.18); border: none; padding: 10px 22px; border-radius: 8px; transition: all 0.3s;">🛰️ 查看酒店卫星图</button>
+      </div>
+    </nav>
+    <footer>
+      期待与您相见于2025年8月6日 · 宜嘉酒店不见不散
+    </footer>
+  </div>
+
+  <!-- 酒店卫星图片弹窗 -->
+  <div id="satellite-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.95); z-index:9999; justify-content:center; align-items:center; flex-direction:column; transition:all 0.5s;">
+    <button id="satellite-back" style="position:absolute;top:24px;left:24px;padding:10px 18px;font-size:1em;border-radius:8px;border:none;background:linear-gradient(135deg,#ffe066,#ff9e00);color:#000;font-weight:600;cursor:pointer;z-index:10;box-shadow:0 2px 8px #ffecb3;">返回</button>
+    <img id="satellite-img" src='https://hunyuan-prod-1258344703.cos.ap-guangzhou.myqcloud.com/text2img/15d06b6ce644675e59605072fc05a349/20250806150013h0_a1fce6b82848d43673e6a69f4521b57b?q-sign-algorithm=sha1&q-ak=AKIDRl074nOsGdJ9zjMsCRWP3ShmgS3VtX4S&q-sign-time=1754463613;1785999613&q-key-time=1754463613;1785999613&q-header-list=host&q-url-param-list=&q-signature=e55e5fcdc0c0cd9d42afb87e8ae10979dd20743c' alt="酒店卫星图" style="max-width:90vw;max-height:80vh;border-radius:16px;box-shadow:0 8px 32px #000;">
+    <div style="color:#fffbe7;margin-top:18px;font-size:1.1em;">万载宜嘉酒店三楼宴会厅 · 卫星视图</div>
+  </div>
+
+  <!-- BGM 音乐播放器和音符按钮 -->
+  <audio id="bgm-audio" src="待确定.mp3" loop autoplay preload="auto"></audio>
+  <div id="music-note" title="点击暂停/播放音乐">🎵</div>
+  <a id="qa-btn" class="qa-hidden" href="\web\qa.ht" title="常见问题QA">QA</a>
+  <script>
+    // QA按钮和倒计时显示控制（封面时隐藏，主页面显示）
+    document.addEventListener('DOMContentLoaded', function() {
+      const cover = document.querySelector('.cover');
+      const container = document.querySelector('.container');
+      const qaBtn = document.getElementById('qa-btn');
+      const countdownSection = document.querySelector('.countdown-section');
+      
+      // 检查是否需要跳过封面（从QA页面返回）
+      const skipCover = localStorage.getItem('skip-cover') === '1';
+      
+      if (cover && container) {
+        if (skipCover) {
+          // 从QA页面返回，直接显示主页面
+          cover.style.display = 'none';
+          container.classList.add('loaded');
+          if (qaBtn) qaBtn.classList.remove('qa-hidden');
+          if (countdownSection) countdownSection.classList.remove('cover-hidden');
+          localStorage.removeItem('skip-cover');
+        } else {
+          // 正常流程，先显示封面
+          container.classList.remove('loaded');
+          if (qaBtn) qaBtn.classList.add('qa-hidden');
+          if (countdownSection) countdownSection.classList.add('cover-hidden');
+          
+          cover.addEventListener('click', function() {
+            cover.classList.add('active');
+            setTimeout(() => {
+              cover.style.display = 'none';
+              container.classList.add('loaded');
+              if (qaBtn) qaBtn.classList.remove('qa-hidden');
+              if (countdownSection) countdownSection.classList.remove('cover-hidden');
+            }, 600);
+          });
+        }
+      }
+    });
+    // 音乐播放与音符控制
+    document.addEventListener('DOMContentLoaded', function() {
+      const audio = document.getElementById('bgm-audio');
+      const note = document.getElementById('music-note');
+      if (!audio || !note) return;
+      // 读取localStorage中的音乐状态
+      try {
+        const t = parseFloat(localStorage.getItem('bgm-currentTime'));
+        const v = parseFloat(localStorage.getItem('bgm-volume'));
+        const paused = localStorage.getItem('bgm-paused');
+        if (!isNaN(t)) audio.currentTime = t;
+        if (!isNaN(v)) audio.volume = v;
+        else audio.volume = 0.1;
+        if (paused === '1') {
+          setTimeout(()=>audio.pause(), 100);
+        } else {
+          setTimeout(()=>audio.play().catch(()=>{}), 100);
+        }
+      } catch(e) {
+        audio.volume = 0.1;
+      }
+      // 兼容部分浏览器，强制多次设置音量为0.1
+      audio.volume = 0.1;
+      audio.addEventListener('canplay', function(){ audio.volume = 0.1; });
+      audio.addEventListener('play', function(){ audio.volume = 0.1; });
+      function updateNoteState() {
+        if (!audio.paused) {
+          note.classList.add('playing');
+        } else {
+          note.classList.remove('playing');
+        }
+      }
+      note.addEventListener('click', function() {
+        if (audio.paused) {
+          audio.play();
+        } else {
+          audio.pause();
+        }
+      });
+      audio.addEventListener('play', updateNoteState);
+      audio.addEventListener('pause', updateNoteState);
+      updateNoteState();
+      // 兼容部分浏览器自动播放策略
+      document.body.addEventListener('click', function oncePlay() {
+        if (audio.paused) {
+          audio.play().catch(()=>{});
+        }
+        document.body.removeEventListener('click', oncePlay);
+      });
+    });
+
+    // 倒计时功能
+    function updateCountdown() {
+      const targetDate = new Date('2025-08-06T12:00:00');
+      const now = new Date();
+      const timeDiff = targetDate - now;
+      
+      if (timeDiff <= 0) {
+        // 宴会时间已到
+        document.getElementById('days').textContent = '00';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+        document.getElementById('countdown-message').textContent = '🎉 宴会正在进行中！';
+        return;
+      }
+      
+      const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+      
+      document.getElementById('days').textContent = days.toString().padStart(2, '0');
+      document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+      document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+      document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+      
+      // 根据剩余时间更新消息
+      if (days > 30) {
+        document.getElementById('countdown-message').textContent = '还有很长的等待时光';
+      } else if (days > 7) {
+        document.getElementById('countdown-message').textContent = '倒计时进行中...';
+      } else if (days > 1) {
+        document.getElementById('countdown-message').textContent = '即将到来！';
+      } else if (days === 1) {
+        document.getElementById('countdown-message').textContent = '明天就是宴会！';
+      } else if (hours > 0) {
+        document.getElementById('countdown-message').textContent = '今天就是宴会！';
+      } else {
+        document.getElementById('countdown-message').textContent = '宴会即将开始！';
+      }
+    }
+    
+    // 启动倒计时
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    
+    // QA按钮点击时保存音乐状态（不隐藏按钮）
+    var qaBtn = document.getElementById('qa-btn');
+    if (qaBtn) {
+      qaBtn.addEventListener('click', function(e) {
+        var audio = document.getElementById('bgm-audio');
+        if (audio) {
+          localStorage.setItem('bgm-currentTime', audio.currentTime);
+          localStorage.setItem('bgm-volume', audio.volume);
+          localStorage.setItem('bgm-paused', audio.paused ? '1' : '0');
+        }
+      });
+    }
+    // 宴会酒店坐标（万载宜嘉酒店三楼宴会厅）
+    const HOTEL_NAME = '万载宜嘉酒店三楼宴会厅';
+    const HOTEL_LAT = 28.1065;
+    const HOTEL_LNG = 114.4452;
+    // 获取定位并显示
+    function showLocation() {
+      const info = document.getElementById('location-info');
+      if (!navigator.geolocation) {
+        info.textContent = '❌ 当前浏览器不支持定位功能';
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = pos.coords.latitude.toFixed(6);
+          const lng = pos.coords.longitude.toFixed(6);
+          info.innerHTML = `📍 您当前所在位置：<span style='color:#fffbe7;'>${lat}, ${lng}</span>`;
+          info.dataset.lat = lat;
+          info.dataset.lng = lng;
+        },
+        (err) => {
+          info.textContent = '❌ 定位失败，请检查浏览器权限或手动打开地图导航';
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+      );
+    }
+    // 地图导航
+    function openMapNav() {
+      const info = document.getElementById('location-info');
+      const userLat = info.dataset.lat;
+      const userLng = info.dataset.lng;
+      let url = '';
+      if (userLat && userLng) {
+        url = `https://uri.amap.com/navigation?from=${userLng},${userLat},我的位置&to=${HOTEL_LNG},${HOTEL_LAT},${HOTEL_NAME}&mode=car&policy=1&src=邀请函`;
+      } else {
+        url = `https://uri.amap.com/marker?position=${HOTEL_LNG},${HOTEL_LAT}&name=${HOTEL_NAME}&src=邀请函`;
+      }
+      window.open(url, '_blank');
+    }
+    // 卫星图片弹窗
+    document.addEventListener('DOMContentLoaded', function() {
+      showLocation();
+      var navBtn = document.getElementById('nav-btn');
+      var satelliteBtn = document.getElementById('satellite-btn');
+      var satelliteModal = document.getElementById('satellite-modal');
+      var satelliteBack = document.getElementById('satellite-back');
+      if (navBtn) navBtn.onclick = openMapNav;
+      if (satelliteBtn) satelliteBtn.onmouseenter = null;
+      // 保留点击弹窗
+      if (satelliteBtn && satelliteModal) {
+        satelliteBtn.onclick = function(e) {
+          satelliteModal.style.display = 'flex';
+          setTimeout(() => {
+            satelliteModal.classList.add('active');
+          }, 10);
+          document.body.style.overflow = 'hidden';
+        };
+      }
+      if (satelliteBack && satelliteModal) {
+        satelliteBack.addEventListener('click', function() {
+          satelliteModal.classList.remove('active');
+          setTimeout(() => {
+            satelliteModal.style.display = 'none';
+            document.body.style.overflow = '';
+          }, 400);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
